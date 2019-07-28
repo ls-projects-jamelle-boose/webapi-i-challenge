@@ -19,8 +19,7 @@ server.get("/api/users", (request, response) => {
     })
     .catch(err => {
       response.status(500).json({
-        success: false,
-        err
+        error: "The users information could not be retrieved."
       });
     });
 });
@@ -62,18 +61,22 @@ server.post("/api/users", (request, response) => {
 |--------------------------------------------------
 */
 
-server.get("/users/:id", (request, response) => {
+server.get("/api/users/:id", (request, response) => {
   const { id } = request.params;
 
   db.findById(id)
     .then(user => {
-      //try to refactor and send a message if user id doesn't exist
-      response.status(200).json(user);
+      if (user === undefined) {
+        response.status(404).json({
+          message: "The user with the specified ID does not exist."
+        });
+      } else {
+        response.status(200).json(user);
+      }
     })
     .catch(err => {
       response.status(500).json({
-        success: false,
-        err
+        error: "The user information could not be retrieved."
       });
     });
 });
@@ -88,20 +91,19 @@ server.delete("/api/users/:id", (request, response) => {
   const { id } = request.params;
 
   db.remove(id)
-    .then(del => {
-      if (del) {
-        response.status(204).end();
-      } else {
+    .then(user => {
+      console.log(user);
+      if (!user) {
         response.status(404).json({
-          success: false,
-          message: "I cannot find the user you are looking for, Dave."
+          message: "The user with the specified ID does not exist."
         });
+      } else {
+        response.status(204).end();
       }
     })
     .catch(err => {
       response.status(500).json({
-        success: false,
-        err
+        success: "The user could not be removed"
       });
     });
 });
