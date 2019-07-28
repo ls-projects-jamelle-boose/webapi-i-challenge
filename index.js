@@ -36,25 +36,24 @@ server.post("/api/users", (request, response) => {
   const { body } = request;
   const { name, bio } = body;
 
-  db.insert(body)
-    .then(user => {
-      console.log({ name, bio });
-      if (name && bio) {
-        response.status(400).json({
-          errorMessage: "Please provide name and bio for the user."
-        });
-      } //else {
-      //   response.status(201).json({
-      //     user
-      //   });
-      // }
-    })
-    .catch(err => {
-      response.status(500).json({
-        error: "There was an error while saving the user to the database",
-        err
-      });
+  if (!name || !bio) {
+    response.status(400).json({
+      errorMessage: "Please provide name and bio for the user."
     });
+  } else {
+    db.insert(body)
+      .then(user => {
+        response.status(201).json({
+          user
+        });
+      })
+      .catch(err => {
+        response.status(500).json({
+          error: "There was an error while saving the user to the database.",
+          err
+        });
+      });
+  }
 });
 
 /**
