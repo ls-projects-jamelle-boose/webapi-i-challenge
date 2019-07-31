@@ -61,38 +61,39 @@ Inside `index.js` add the code necessary to implement the following _endpoints_:
 
 #### Endpoint Specifications
 
-When the client makes a `POST` request to `/api/users`:
+- When the client makes a `POST` request to `/api/users`:
 
-- If the request body is missing the `name` or `bio` property:
+  - If the request body is missing the `name` or `bio` property:
 
-  - cancel the request.
-  - respond with HTTP status code `400` (Bad Request).
-  - return the following JSON response: `{ errorMessage: "Please provide name and bio for the user." }`.
+    - cancel the request.
+    - respond with HTTP status code `400` (Bad Request).
+    - return the following JSON response: `{ errorMessage: "Please provide name and bio for the user." }`.
 
-- If the information about the _user_ is valid:
+  - If the information about the _user_ is valid:
 
-  - save the new _user_ the the database.
-  - return HTTP status code `201` (Created).
-  - return the newly created _user document_.
+    - save the new _user_ the the database.
+    - return HTTP status code `201` (Created).
+    - return the newly created _user document_.
 
-- If there's an error while saving the _user_:
-  - cancel the request.
-  - respond with HTTP status code `500` (Server Error).
-  - return the following JSON object: `{ error: "There was an error while saving the user to the database" }`.
+  - If there's an error while saving the _user_:
 
-When the client makes a `GET` request to `/api/users`:
+    - cancel the request.
+    - respond with HTTP status code `500` (Server Error).
+    - return the following JSON object: `{ error: "There was an error while saving the user to the database" }`.
 
-- If there's an error in retrieving the _users_ from the database:
-  - cancel the request.
-  - respond with HTTP status code `500`.
-  - return the following JSON object: `{ error: "The users information could not be retrieved." }`.
+- When the client makes a `GET` request to `/api/users`:
 
-When the client makes a `GET` request to `/api/users/:id`:
+  - If there's an error in retrieving the _users_ from the database:
+    - cancel the request.
+    - respond with HTTP status code `500`.
+    - return the following JSON object: `{ error: "The users information could not be retrieved." }`.
 
-- If the _user_ with the specified `id` is not found:
+- When the client makes a `GET` request to `/api/users/:id`:
 
-  - return HTTP status code `404` (Not Found).
-  - return the following JSON object: `{ message: "The user with the specified ID does not exist." }`.
+  - If the _user_ with the specified `id` is not found:
+
+    - return HTTP status code `404` (Not Found).
+    - return the following JSON object: `{ message: "The user with the specified ID does not exist." }`.
 
 - If there's an error in retrieving the _user_ from the database:
   - cancel the request.
